@@ -1,11 +1,11 @@
-let video; 
+let video;
 let poseNet;
 let pose;
 let skeleton;
-let img; 
+let img;
 
 function preload() {
-  img = loadImage('assets/laDefense.jpg');
+  img = loadImage('assets/avatar1.png');
 }
 
 function setup() {
@@ -31,48 +31,48 @@ function modelLoaded(){
 
 function draw() {
   image(video, 0, 0);
-  filter(GRAY); 
-  
+  filter(GRAY);
+
   if(pose) {
-    let eyeR = pose.rightEye; 
-    let eyeL = pose.leftEye; 
+    let eyeR = pose.rightEye;
+    let eyeL = pose.leftEye;
     let d = dist(eyeR.x, eyeR.Y, eyeL.X, eyeL.y);
-    
-    fill(255, 0, 0); 
+
+    fill(255, 0, 0);
     image(pose.nose.x, pose.nose.y, 200);
-    
+
     fill(152, 240, 237)
-    ellipse(pose.rightEye.x, pose.rightEye.y, 40); 
+    ellipse(pose.rightEye.x, pose.rightEye.y, 40);
     ellipse(pose.leftEye.x, pose.leftEye.y, 40);
-    
-    fill(0, 0, 255); 
-    ellipse(pose.rightWrist.x, pose.rightWrist.y,32); 
+
+    fill(0, 0, 255);
+    ellipse(pose.rightWrist.x, pose.rightWrist.y,32);
     ellipse(pose.leftWrist.x, pose.leftWrist.y, 32);
-    
+
     for(let i = 0; i < pose.keypoints.length; i++) {
-      let x = pose.keypoints[i].position.x; 
-      let y = pose.keypoints[i].position.y; 
+      let x = pose.keypoints[i].position.x;
+      let y = pose.keypoints[i].position.y;
       ellipse(x,y,16,16);
     }
-    
+
     for(let i = 0; i < skeleton.length; i++) {
       let a = skeleton[i][0];
-      let b = skeleton[i][1]; 
+      let b = skeleton[i][1];
       strokeWeight(2);
       stroke(255);
-      line(a.position.x, a.position.y,b.position.x, b.position.y); 
+      line(a.position.x, a.position.y,b.position.x, b.position.y);
     }
   }
-  
+
 }
 
 function eye(x, y, size, n) {
 	let angle = frameCount * 0.2;
-	
+
 	fill(255);
 	noStroke();
 	ellipse(x, y, size, size);
-	
+
 	fill(56);
 	noStroke();
 	ellipse(x+cos(angle*n)*size/5, y+sin(angle*n)*size/5, size/2, size/2);
