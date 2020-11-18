@@ -6,28 +6,31 @@ let img;
 
 function preload() {
   img = loadImage('assets/avatar1.png');
-}
+} //it loads the AI model
 
 function setup() {
   createCanvas(640, 480);
+
+  //it enables the video source, in this case the webcam
   video = createCapture(VIDEO);
   video.hide();
-  poseNet = ml5.poseNet(video, modelLoaded);
+
+  poseNet = ml5.poseNet(video, modelLoaded); //this is the source or call back
   poseNet.on('pose', gotPoses);
 }
 
 function gotPoses(poses) {
-  console.log(poses);
+  console.log(poses); // the code automatically picks the info from the poses that are loaded in the array
   if (poses.length > 0) {
-    pose = poses[0].pose;
+    pose = poses[0].pose; //poses[0] takes us to the very beginning of the array. ".pose" takes us to the inside of the coordinates to get the pose info.
     skeleton = poses[0].skeleton;
   }
 
-}
+} //
 
 function modelLoaded(){
   console.log('poseNet ready');
-}
+} //this function emphazises in capturing the image through the webcam
 
 function draw() {
   image(video, 0, 0);
@@ -36,10 +39,10 @@ function draw() {
   if(pose) {
     let eyeR = pose.rightEye;
     let eyeL = pose.leftEye;
-    let d = dist(eyeR.x, eyeR.Y, eyeL.X, eyeL.y);
+    let d = dist(eyeR.x, eyeR.y, eyeL.x, eyeL.y);
 
     fill(255, 0, 0);
-    image(pose.nose.x, pose.nose.y, 200);
+    image(pose.nose.x, pose.nose.y, d); // d will scale nose base on size of face
 
     fill(152, 240, 237)
     ellipse(pose.rightEye.x, pose.rightEye.y, 40);
@@ -62,6 +65,8 @@ function draw() {
       stroke(255);
       line(a.position.x, a.position.y,b.position.x, b.position.y);
     }
+
+    //draw an eyeball over one or both of the eyes
   }
 
 }
